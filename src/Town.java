@@ -12,7 +12,7 @@ public class Town {
     private String printMessage;
     private boolean toughTown;
     private boolean dugGoldAlready;
-    private boolean easyMode;
+    private TreasureHunter th;
 
     public TreasureHunter treasureHunter = new TreasureHunter();
     /**
@@ -21,10 +21,10 @@ public class Town {
      * @param shop The town's shoppe.
      * @param toughness The surrounding terrain.
      */
-    public Town(Shop shop, double toughness) {
+    public Town(Shop shop, double toughness, TreasureHunter th) {
         this.shop = shop;
         this.terrain = getNewTerrain();
-        easyMode = treasureHunter.getEasyMode();
+        this.th = th;
 
         // the hunter gets set using the hunterArrives method, which
         // gets called from a client class
@@ -95,7 +95,6 @@ public class Town {
      * The tougher the town, the easier it is to find a fight, and the harder it is to win one.
      */
     public void lookForTrouble() {
-        double easier = 0;
         double noTroubleChance;
         if (toughTown) {
             noTroubleChance = 0.33;
@@ -107,10 +106,7 @@ public class Town {
         } else {
             printMessage = Colors.RED + "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
-            if (treasureHunter.getEasyMode()) {
-                easier = 0.2;
-            }
-            if (Math.random() > noTroubleChance + easier) {
+            if (Math.random() > noTroubleChance) {
                 printMessage += "Okay, stranger! You proved yer mettle. Here, take my gold.";
                 printMessage += Colors.YELLOW + "\nYou won the brawl and receive " + goldDiff  + " gold." + Colors.RESET;
                 hunter.changeGold(goldDiff);
@@ -172,11 +168,11 @@ public class Town {
      * @return true if the item broke.
      */
     private boolean checkItemBreak() {
-        if (easyMode) {
-            return false;
-        } else {
+        if (!th.getEasyMode()) {
             double rand = Math.random();
-            return (rand < 0.5);
+            return (rand < 0.99);
+        } else {
+            return false;
         }
     }
 }

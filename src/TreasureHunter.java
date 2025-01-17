@@ -82,6 +82,10 @@ public class TreasureHunter {
 
             // and the town is "tougher"
             toughness = 0.75;
+        } else if (easyMode) {
+            markdown = 1;
+
+            toughness = 0.35;
         }
 
         // note that we don't need to access the Shop object
@@ -92,7 +96,7 @@ public class TreasureHunter {
         // creating the new Town -- which we need to store as an instance
         // variable in this class, since we need to access the Town
         // object in other methods of this class
-        currentTown = new Town(shop, toughness);
+        currentTown = new Town(shop, toughness, this);
 
         // calling the hunterArrives method, which takes the Hunter
         // as a parameter; note this also could have been done in the
