@@ -11,6 +11,7 @@ public class Town {
     private Terrain terrain;
     private String printMessage;
     private boolean toughTown;
+    private boolean dugGoldAlready;
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -67,6 +68,7 @@ public class Town {
             if (checkItemBreak()) {
                 hunter.removeItemFromKit(item);
                 printMessage += "\nUnfortunately, you lost your " + item;
+                dugGoldAlready = false;
             }
             return true;
         }
@@ -110,6 +112,24 @@ public class Town {
                 printMessage += "\nYou lost the brawl and pay " + Colors.YELLOW + goldDiff  + " gold." + Colors.RESET;
                 hunter.changeGold(-goldDiff);
             }
+        }
+    }
+
+    public void digGold() {
+        if (!hunter.hasItemInKit("shovel")) {
+            System.out.println("You can't dig for gold without a shovel");
+        } else if (dugGoldAlready) {
+            System.out.println("You already dug for gold in this town.");
+        } else {
+            double chance = Math.random();
+            if (chance < .5) {
+                int goldFound = (int) (Math.random() * 20) + 1;
+                System.out.println("You dug up " + goldFound + " gold");
+                hunter.changeGold(goldFound);
+            } else {
+                System.out.println("You dug but only found dirt");
+            }
+            dugGoldAlready = true;
         }
     }
 
