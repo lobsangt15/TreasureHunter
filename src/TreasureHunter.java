@@ -16,6 +16,7 @@ public class TreasureHunter {
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
+    private boolean easyMode;
 
     /**
      * Constructs the Treasure Hunter game.
@@ -25,6 +26,7 @@ public class TreasureHunter {
         currentTown = null;
         hunter = null;
         hardMode = false;
+        easyMode = false;
     }
 
     /**
@@ -44,14 +46,16 @@ public class TreasureHunter {
         System.out.println("Going hunting for the big treasure, eh?");
         System.out.print("What's your name, Hunter? ");
         String name = SCANNER.nextLine().toLowerCase();
+        System.out.print("Difficulty ([e]asy, [n]ormal, [h]ard : ");
+        String hard = SCANNER.nextLine().toLowerCase();
 
         // set hunter instance variable
         hunter = new Hunter(name, 20);
-
-        System.out.print("Hard mode? (y/n): ");
-        String hard = SCANNER.nextLine().toLowerCase();
-        if (hard.equals("y")) {
+        if (hard.equals("h")) {
             hardMode = true;
+        } else if (hard.equals("e")) {
+            easyMode = true;
+            hunter.changeGold(20);
         }
         if (hard.equals("test")) {
             hunter.changeGold(80);
@@ -60,6 +64,10 @@ public class TreasureHunter {
                 hunter.addItem(itm);
             }
         }
+    }
+
+    public boolean getEasyMode() {
+        return easyMode;
     }
 
     /**

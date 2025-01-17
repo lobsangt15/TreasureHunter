@@ -12,7 +12,9 @@ public class Town {
     private String printMessage;
     private boolean toughTown;
     private boolean dugGoldAlready;
+    private boolean easyMode;
 
+    public TreasureHunter treasureHunter = new TreasureHunter();
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
      *
@@ -22,6 +24,7 @@ public class Town {
     public Town(Shop shop, double toughness) {
         this.shop = shop;
         this.terrain = getNewTerrain();
+        easyMode = treasureHunter.getEasyMode();
 
         // the hunter gets set using the hunterArrives method, which
         // gets called from a client class
@@ -92,6 +95,7 @@ public class Town {
      * The tougher the town, the easier it is to find a fight, and the harder it is to win one.
      */
     public void lookForTrouble() {
+        double easier = 0;
         double noTroubleChance;
         if (toughTown) {
             noTroubleChance = 0.33;
@@ -103,7 +107,10 @@ public class Town {
         } else {
             printMessage = Colors.RED + "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
-            if (Math.random() > noTroubleChance) {
+            if (treasureHunter.getEasyMode()) {
+                easier = 0.2;
+            }
+            if (Math.random() > noTroubleChance + easier) {
                 printMessage += "Okay, stranger! You proved yer mettle. Here, take my gold.";
                 printMessage += Colors.YELLOW + "\nYou won the brawl and receive " + goldDiff  + " gold." + Colors.RESET;
                 hunter.changeGold(goldDiff);
@@ -165,7 +172,11 @@ public class Town {
      * @return true if the item broke.
      */
     private boolean checkItemBreak() {
-        double rand = Math.random();
-        return (rand < 0.5);
+        if (easyMode) {
+            return false;
+        } else {
+            double rand = Math.random();
+            return (rand < 0.5);
+        }
     }
 }

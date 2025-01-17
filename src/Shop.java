@@ -22,6 +22,9 @@ public class Shop {
     // instance variables
     private double markdown;
     private Hunter customer;
+    private boolean easyMode;
+
+    public TreasureHunter treasureHunter = new TreasureHunter();
 
     /**
      * The Shop constructor takes in a markdown value and leaves customer null until one enters the shop.
@@ -31,6 +34,7 @@ public class Shop {
     public Shop(double markdown) {
         this.markdown = markdown;
         customer = null; // customer is set in the enter method
+        easyMode = treasureHunter.getEasyMode();
     }
 
     /**
@@ -169,7 +173,9 @@ public class Shop {
      * @return The sell price of the item.
      */
     public int getBuyBackCost(String item) {
-        int cost = (int) (getCostOfItem(item) * markdown);
-        return cost;
+        if (easyMode) {
+            return getCostOfItem(item); // In easy mode, get full price back when selling
+        }
+        return 2;
     }
 }
