@@ -14,6 +14,7 @@ public class Town {
     private boolean dugGoldAlready;
     private TreasureHunter th;
 
+
     public TreasureHunter treasureHunter = new TreasureHunter();
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.

@@ -17,11 +17,13 @@ public class TreasureHunter {
     private Hunter hunter;
     private boolean hardMode;
     private boolean easyMode;
-    public boolean samuraiMode;
+    public static boolean samuraiMode;
     private String treasure;
     private String[] treasureFound;
     private boolean searched;
+    public static boolean hasSword;
     int index = 0;
+
 
     /**
      * Constructs the Treasure Hunter game.
@@ -65,7 +67,6 @@ public class TreasureHunter {
             hunter.changeGold(20);
         } else if (hard.equals("s")) {
             samuraiMode = true;
-            hunter.changeGold(20);
         }
 
         if (hard.equals("test")) {

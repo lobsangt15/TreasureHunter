@@ -98,7 +98,7 @@ public class Shop {
         str += "Boat: " + BOAT_COST + " gold\n";
         str += "Boots: " + BOOT_COST + " gold\n";
         str += "Shovel: " + SHOVEL_COST + " gold\n";
-        if (treasureHunter.samuraiMode == true) {
+        if (TreasureHunter.samuraiMode) {
             str += "Sword " + SWORD_COST + " gold\n";
         }
         return str;
