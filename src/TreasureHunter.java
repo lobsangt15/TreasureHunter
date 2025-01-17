@@ -145,7 +145,10 @@ public class TreasureHunter {
     private void showMenu() {
         String choice = "";
         while (!choice.equals("x")) {
-            if (hunter.gameOver()) {
+            if (gameWon()) {
+                System.out.println("You found the last of the three treasures, you win!");
+                break;
+            } else if (hunter.gameOver()) {
                 System.out.println("Game Over!");
                 choice = "x";
                 processChoice(choice);
@@ -203,5 +206,25 @@ public class TreasureHunter {
         } else {
             System.out.println("Yikes! That's an invalid option! Try again.");
         }
+    }
+
+    public boolean isThreeTreasures() {
+        int count = 0;
+        for (String itm: treasureFound) {
+            if (itm != null) {
+                count++;
+            }
+        }
+        if (count == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean gameWon() {
+        if (isThreeTreasures()) {
+            return true;
+        }
+        return false;
     }
 }
