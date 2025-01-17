@@ -80,7 +80,7 @@ public class TreasureHunter {
      */
     private void enterTown() {
         String treasures[] = {"crown", "trophy", "gem", "dust"};
-        int idx = (int)(Math.random() * 3);
+        int idx = (int)(Math.random() * 4);
         treasure = treasures[idx];
         double markdown = 0.50;
         double toughness = 0.4;
@@ -113,10 +113,24 @@ public class TreasureHunter {
         currentTown.hunterArrives(hunter);
     }
 
-    public String searchForTreasure() {
-        treasureFound[index] = treasure;
-        index++;
-        return "You found a " + treasure;
+    public boolean alreadyFound(String item) {
+        for (String itm: treasureFound) {
+            if (item == itm) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void searchForTreasure() {
+        if (alreadyFound(treasure)){
+            System.out.println("You have already collected a " + treasure);
+        }
+        if(!treasure.equals("dust") && !alreadyFound(treasure)) {
+            treasureFound[index] = treasure;
+            index++;
+            System.out.println("You found a " + treasure);
+        }
     }
 
     /**
