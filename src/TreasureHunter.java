@@ -53,6 +53,13 @@ public class TreasureHunter {
         if (hard.equals("y")) {
             hardMode = true;
         }
+        if (hard.equals("test")) {
+            hunter.changeGold(80);
+            String items[] = {"Water", "Rope", "Machete", "Horse", "Boat"};
+            for (String itm : items) {
+                hunter.addItem(itm);
+            }
+        }
     }
 
     /**
