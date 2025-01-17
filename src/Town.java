@@ -92,9 +92,9 @@ public class Town {
     public void lookForTrouble() {
         double noTroubleChance;
         if (toughTown) {
-            noTroubleChance = 0.66;
-        } else {
             noTroubleChance = 0.33;
+        } else {
+            noTroubleChance = 0.66;
         }
         if (Math.random() > noTroubleChance) {
             printMessage = "You couldn't find any trouble";
