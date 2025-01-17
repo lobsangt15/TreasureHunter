@@ -96,6 +96,7 @@ public class Town {
      */
     public void lookForTrouble() {
         double noTroubleChance;
+
         if (toughTown) {
             noTroubleChance = 0.33;
         } else {
@@ -114,6 +115,42 @@ public class Town {
                 printMessage += "That'll teach you to go lookin' fer trouble in MY town! Now pay up!";
                 printMessage += "\nYou lost the brawl and pay " + Colors.YELLOW + goldDiff  + " gold." + Colors.RESET;
                 hunter.changeGold(-goldDiff);
+            }
+        }
+        if (th.samuraiMode = true) {
+            if (toughTown) {
+                noTroubleChance = 0.33;
+            } else {
+                noTroubleChance = 0.66;
+            }
+            if (Math.random() > noTroubleChance) {
+                printMessage = "You couldn't find any trouble";
+            } else {
+                printMessage = Colors.RED + "I don't want any trouble! ";
+                int goldDiff = (int) (Math.random() * 10) + 1;
+                if (Math.random() > noTroubleChance) {
+                    printMessage += "Why would you bring a sword to a fist fight???";
+                    printMessage += Colors.YELLOW + "\nYou won the brawl and receive " + goldDiff  + " gold." + Colors.RESET;
+                    hunter.changeGold(goldDiff);
+                }
+            }
+            if (th.samuraiMode = true) {
+                if (toughTown) {
+                    noTroubleChance = 0.33;
+                } else {
+                    noTroubleChance = 0.66;
+                }
+                if (Math.random() > -1) {
+                    printMessage = "You couldn't find any trouble";
+                } else {
+                    printMessage = Colors.RED + "I don't want any trouble! ";
+                    int goldDiff = (int) (Math.random() * 10) + 1;
+                    if (Math.random() > noTroubleChance) {
+                        printMessage += "Why would you bring a sword to a fist fight???";
+                        printMessage += Colors.YELLOW + "\nYou won the brawl and receive " + goldDiff  + " gold." + Colors.RESET;
+                        hunter.changeGold(goldDiff);
+                    }
+                }
             }
         }
     }

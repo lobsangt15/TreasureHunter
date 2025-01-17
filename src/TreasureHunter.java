@@ -17,6 +17,7 @@ public class TreasureHunter {
     private Hunter hunter;
     private boolean hardMode;
     private boolean easyMode;
+    public boolean samuraiMode;
     private String treasure;
     private String[] treasureFound;
     private boolean searched;
@@ -31,6 +32,7 @@ public class TreasureHunter {
         hunter = null;
         hardMode = false;
         easyMode = false;
+        samuraiMode = false;
         treasureFound = new String[3];
     }
 
@@ -61,7 +63,11 @@ public class TreasureHunter {
         } else if (hard.equals("e")) {
             easyMode = true;
             hunter.changeGold(20);
+        } else if (hard.equals("s")) {
+            samuraiMode = true;
+            hunter.changeGold(20);
         }
+
         if (hard.equals("test")) {
             hunter.changeGold(80);
             String items[] = {"water", "rope", "machete", "horse", "boat", "boot"};
@@ -94,7 +100,12 @@ public class TreasureHunter {
             markdown = 1;
 
             toughness = 0.35;
+        } else if (samuraiMode) {
+            markdown = 1;
+
+            toughness = 0;
         }
+
 
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
