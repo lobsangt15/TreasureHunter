@@ -57,7 +57,7 @@ public class TreasureHunter {
         String hard = SCANNER.nextLine().toLowerCase();
 
         // set hunter instance variable
-        hunter = new Hunter(name, 20);
+        hunter = new Hunter(name, 20, this);
         if (hard.equals("h")) {
             hardMode = true;
         } else if (hard.equals("e")) {
@@ -77,6 +77,10 @@ public class TreasureHunter {
         }
     }
 
+    public String[] getTreasureFound() {
+        return treasureFound;
+    }
+
     public boolean getEasyMode() {
         return easyMode;
     }
@@ -86,7 +90,7 @@ public class TreasureHunter {
      */
     private void enterTown() {
         String treasures[] = {"crown", "trophy", "gem", "dust"};
-        int idx = (int)(Math.random() * 3);
+        int idx = (int)(Math.random() * 4);
         treasure = treasures[idx];
         double markdown = 0.50;
         double toughness = 0.4;
@@ -124,10 +128,24 @@ public class TreasureHunter {
         currentTown.hunterArrives(hunter);
     }
 
-    public String searchForTreasure() {
-        treasureFound[index] = treasure;
-        index++;
-        return "You found a " + treasure;
+    public boolean alreadyFound(String item) {
+        for (String itm: treasureFound) {
+            if (item == itm) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void searchForTreasure() {
+        if (alreadyFound(treasure)){
+            System.out.println("You have already collected a " + treasure);
+        }
+        if(!treasure.equals("dust") && !alreadyFound(treasure)) {
+            treasureFound[index] = treasure;
+            index++;
+            System.out.println("You found a " + treasure);
+        }
     }
 
     /**
@@ -138,7 +156,10 @@ public class TreasureHunter {
     private void showMenu() {
         String choice = "";
         while (!choice.equals("x")) {
-            if (hunter.gameOver()) {
+            if (gameWon()) {
+                System.out.println("You found the last of the three treasures, you win!");
+                break;
+            } else if (hunter.gameOver()) {
                 System.out.println("Game Over!");
                 choice = "x";
                 processChoice(choice);
@@ -196,5 +217,25 @@ public class TreasureHunter {
         } else {
             System.out.println("Yikes! That's an invalid option! Try again.");
         }
+    }
+
+    public boolean isThreeTreasures() {
+        int count = 0;
+        for (String itm: treasureFound) {
+            if (itm != null) {
+                count++;
+            }
+        }
+        if (count == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean gameWon() {
+        if (isThreeTreasures()) {
+            return true;
+        }
+        return false;
     }
 }

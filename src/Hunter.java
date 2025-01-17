@@ -9,7 +9,6 @@ public class Hunter {
     private String hunterName;
     private String[] kit;
     private int gold;
-    public static boolean hasSword;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
@@ -19,7 +18,7 @@ public class Hunter {
      */
     public Hunter(String hunterName, int startingGold) {
         this.hunterName = hunterName;
-        kit = new String[8]; // only 8 possible items can be stored in kit
+        kit = new String[7]; // only 7 possible items can be stored in kit
         gold = startingGold;
     }
 
@@ -53,15 +52,6 @@ public class Hunter {
      * @return true if the item is successfully bought.
      */
     public boolean buyItem(String item, int costOfItem) {
-        if (item.equals("sword")) {
-            addItem(item);
-            hasSword = true;
-            return true;
-        }
-        else if (hasSword) {
-            addItem(item);
-            return true;
-        }
         if (costOfItem == 0 || gold < costOfItem || hasItemInKit(item)) {
             return false;
         }
