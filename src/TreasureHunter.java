@@ -55,7 +55,7 @@ public class TreasureHunter {
         String hard = SCANNER.nextLine().toLowerCase();
 
         // set hunter instance variable
-        hunter = new Hunter(name, 20);
+        hunter = new Hunter(name, 20, this);
         if (hard.equals("h")) {
             hardMode = true;
         } else if (hard.equals("e")) {
@@ -69,6 +69,10 @@ public class TreasureHunter {
                 hunter.addItem(itm);
             }
         }
+    }
+
+    public String[] getTreasureFound() {
+        return treasureFound;
     }
 
     public boolean getEasyMode() {
