@@ -14,17 +14,15 @@ public class Hunter {
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
      *
-     * @param hunterName     The hunter's name.
-     * @param startingGold   The gold the hunter starts with.
-     * @param treasureHunter
+     * @param hunterName   The hunter's name.
+     * @param startingGold The gold the hunter starts with.
      */
-    public Hunter(String hunterName, int startingGold, TreasureHunter treasureHunter) {
+    public Hunter(String hunterName, int startingGold) {
         this.hunterName = hunterName;
-        kit = new String[8]; // only 7 possible items can be stored in kit
+        kit = new String[8]; // only 8 possible items can be stored in kit
         gold = startingGold;
     }
 
-    //Accessors
     public String getHunterName() {
         return hunterName;
     }
@@ -58,7 +56,8 @@ public class Hunter {
             addItem(item);
             hasSword = true;
             return true;
-        } else if (hasSword) {
+        }
+        else if (hasSword) {
             addItem(item);
             return true;
         }
@@ -95,7 +94,7 @@ public class Hunter {
     public void removeItemFromKit(String item) {
         int itmIdx = findItemInKit(item);
 
-        // if item is found
+// if item is found
         if (itmIdx >= 0) {
             kit[itmIdx] = null;
         }
@@ -126,14 +125,14 @@ public class Hunter {
     public boolean hasItemInKit(String item) {
         for (String tmpItem : kit) {
             if (item.equals(tmpItem)) {
-                // early return
+// early return
                 return true;
             }
         }
         return false;
     }
 
-     /**
+    /**
      * Returns a printable representation of the inventory, which
      * is a list of the items in kit, with a space between each item.
      *
@@ -204,5 +203,4 @@ public class Hunter {
             }
         }
         return -1;
-    }
-}
+    }}

@@ -14,7 +14,6 @@ public class Town {
     private boolean dugGoldAlready;
     private TreasureHunter th;
 
-
     public TreasureHunter treasureHunter = new TreasureHunter();
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -27,12 +26,12 @@ public class Town {
         this.terrain = getNewTerrain();
         this.th = th;
 
-        // the hunter gets set using the hunterArrives method, which
-        // gets called from a client class
+// the hunter gets set using the hunterArrives method, which
+// gets called from a client class
         hunter = null;
         printMessage = "";
 
-        // higher toughness = more likely to be a tough town
+// higher toughness = more likely to be a tough town
         toughTown = (Math.random() < toughness);
     }
 
