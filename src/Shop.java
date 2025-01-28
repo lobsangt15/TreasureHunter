@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 /**
@@ -24,20 +23,17 @@ public class Shop {
     // instance variables
     private double markdown;
     private Hunter customer;
-    private boolean easyMode;
-    private TreasureHunter treasureHunter;
+    public TreasureHunter treasureHunter;
 
     /**
      * The Shop constructor takes in a markdown value and leaves customer null until one enters the shop.
      *
-     * @param markdown       Percentage of markdown for selling items in decimal format.
-     * @param treasureHunter Associated TreasureHunter instance.
+     * @param markdown Percentage of markdown for selling items in decimal format.
      */
     public Shop(double markdown, TreasureHunter treasureHunter) {
         this.markdown = markdown;
-        this.customer = null;
-        this.treasureHunter = treasureHunter; // Correctly assigning the parameter
-        this.easyMode = this.treasureHunter.getEasyMode();
+        customer = null; // customer is set in the enter method
+        this.treasureHunter = treasureHunter;
     }
 
     /**
@@ -99,7 +95,7 @@ public class Shop {
         str += "Boat: " + BOAT_COST + " gold\n";
         str += "Boots: " + BOOT_COST + " gold\n";
         str += "Shovel: " + SHOVEL_COST + " gold\n";
-        if (treasureHunter.samuraiMode == true) {
+        if (treasureHunter.samuraiMode) {
             str += "Sword " + SWORD_COST + " gold\n";
         }
         return str;
@@ -115,11 +111,12 @@ public class Shop {
         if (Hunter.hasSword) {
             customer.buyItem(item, costOfItem);
             System.out.println("The shopkeeper looks at the sword and reluctantly gives you the item for free");
-        }
-        if (customer.buyItem(item, costOfItem)) {
-            System.out.println("Ye' got yerself a " + item + ". Come again soon.");
         } else {
-            System.out.println("Hmm, either you don't have enough gold or you've already got one of those!");
+            if (customer.buyItem(item, costOfItem)) {
+                System.out.println("Ye' got yerself a " + item + ". Come again soon.");
+            } else {
+                System.out.println("Hmm, either you don't have enough gold or you've already got one of those!");
+            }
         }
     }
 
@@ -187,9 +184,7 @@ public class Shop {
      * @return The sell price of the item.
      */
     public int getBuyBackCost(String item) {
-        if (easyMode) {
-            return getCostOfItem(item); // In easy mode, get full price back when selling
-        }
-        return 2;
+        int cost = (int) (getCostOfItem(item) * markdown);
+        return cost;
     }
 }

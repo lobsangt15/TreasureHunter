@@ -1,4 +1,4 @@
-
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -10,8 +10,10 @@ import java.util.Scanner;
  */
 
 public class TreasureHunter {
+    // static variables
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    // instance variables
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
@@ -55,7 +57,8 @@ public class TreasureHunter {
         System.out.print("Difficulty ([e]asy, [n]ormal, [h]ard : ");
         String hard = SCANNER.nextLine().toLowerCase();
 
-        hunter = new Hunter(name, 20);
+        // set hunter instance variable
+        hunter = new Hunter(name, 20, this);
         if (hard.equals("h")) {
             hardMode = true;
         } else if (hard.equals("e")) {
@@ -75,6 +78,14 @@ public class TreasureHunter {
         }
     }
 
+    public boolean getSamuraiMode() {
+        return samuraiMode;
+    }
+
+    public String[] getTreasureFound() {
+        return treasureFound;
+    }
+
     public boolean getEasyMode() {
         return easyMode;
     }
@@ -84,33 +95,63 @@ public class TreasureHunter {
      */
     private void enterTown() {
         String treasures[] = {"crown", "trophy", "gem", "dust"};
-        int idx = (int) (Math.random() * 3);
+        int idx = (int)(Math.random() * 4);
         treasure = treasures[idx];
         double markdown = 0.50;
         double toughness = 0.4;
-
         if (hardMode) {
+            // in hard mode, you get less money back when you sell items
             markdown = 0.25;
+
+            // and the town is "tougher"
             toughness = 0.75;
         } else if (easyMode) {
             markdown = 1;
+
             toughness = 0.35;
         } else if (samuraiMode) {
             markdown = 1;
             toughness = 0;
         }
 
+        // note that we don't need to access the Shop object
+        // outside of this method, so it isn't necessary to store it as an instance
+        // variable; we can leave it as a local variable
         Shop shop = new Shop(markdown, this);
 
+        // creating the new Town -- which we need to store as an instance
+        // variable in this class, since we need to access the Town
+        // object in other methods of this class
         currentTown = new Town(shop, toughness, this);
 
+        // calling the hunterArrives method, which takes the Hunter
+        // as a parameter; note this also could have been done in the
+        // constructor for Town, but this illustrates another way to associate
+        // an object with an object of a different class
         currentTown.hunterArrives(hunter);
     }
 
-    public String searchForTreasure() {
-        treasureFound[index] = treasure;
-        index++;
-        return "You found a " + treasure;
+    public boolean alreadyFound(String item) {
+        for (String itm: treasureFound) {
+            if (Objects.equals(item, itm)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void searchForTreasure() {
+        if (treasure.equals("dust")) {
+            System.out.println("You found " + treasure);
+        }
+        if (alreadyFound(treasure)){
+            System.out.println("You have already collected a " + treasure);
+        }
+        if(!treasure.equals("dust") && !alreadyFound(treasure)) {
+            treasureFound[index] = treasure;
+            index++;
+            System.out.println("You found a " + treasure);
+        }
     }
 
     /**
@@ -121,7 +162,10 @@ public class TreasureHunter {
     private void showMenu() {
         String choice = "";
         while (!choice.equals("x")) {
-            if (hunter.gameOver()) {
+            if (gameWon()) {
+                System.out.println("You found the last of the three treasures, you win!");
+                break;
+            } else if (hunter.gameOver()) {
                 System.out.println("Game Over!");
                 choice = "x";
                 processChoice(choice);
@@ -179,5 +223,25 @@ public class TreasureHunter {
         } else {
             System.out.println("Yikes! That's an invalid option! Try again.");
         }
+    }
+
+    public boolean isThreeTreasures() {
+        int count = 0;
+        for (String itm: treasureFound) {
+            if (itm != null) {
+                count++;
+            }
+        }
+        if (count == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean gameWon() {
+        if (isThreeTreasures()) {
+            return true;
+        }
+        return false;
     }
 }

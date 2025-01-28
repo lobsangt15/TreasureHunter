@@ -9,20 +9,23 @@ public class Hunter {
     private String hunterName;
     private String[] kit;
     private int gold;
+    TreasureHunter treasureHunter;
     public static boolean hasSword;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
      *
-     * @param hunterName   The hunter's name.
+     * @param hunterName The hunter's name.
      * @param startingGold The gold the hunter starts with.
      */
-    public Hunter(String hunterName, int startingGold) {
+    public Hunter(String hunterName, int startingGold, TreasureHunter th) {
         this.hunterName = hunterName;
-        kit = new String[8]; // only 8 possible items can be stored in kit
+        kit = new String[8];
         gold = startingGold;
+        treasureHunter = th;
     }
 
+    //Accessors
     public String getHunterName() {
         return hunterName;
     }
@@ -56,8 +59,7 @@ public class Hunter {
             addItem(item);
             hasSword = true;
             return true;
-        }
-        else if (hasSword) {
+        } else if (hasSword) {
             addItem(item);
             return true;
         }
@@ -94,7 +96,7 @@ public class Hunter {
     public void removeItemFromKit(String item) {
         int itmIdx = findItemInKit(item);
 
-// if item is found
+        // if item is found
         if (itmIdx >= 0) {
             kit[itmIdx] = null;
         }
@@ -125,7 +127,7 @@ public class Hunter {
     public boolean hasItemInKit(String item) {
         for (String tmpItem : kit) {
             if (item.equals(tmpItem)) {
-// early return
+                // early return
                 return true;
             }
         }
@@ -156,6 +158,12 @@ public class Hunter {
         String str = hunterName + " has " + Colors.YELLOW + gold + " gold" + Colors.RESET;
         if (!kitIsEmpty()) {
             str += " and " + getInventory();
+        }
+        str += "\nTreasures Found: ";
+        for (String itm: treasureHunter.getTreasureFound()) {
+            if (itm != null) {
+                str += itm + " ";
+            }
         }
         return str;
     }
@@ -203,4 +211,5 @@ public class Hunter {
             }
         }
         return -1;
-    }}
+    }
+}
